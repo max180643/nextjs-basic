@@ -9,3 +9,11 @@ export const createDB = () => {
     port: process.env.DB_PORT,
   });
 };
+
+export const getMovies = async () => {
+  const res = await createDB().query(
+    "SELECT id, title, excerpt, detail, writer, TO_CHAR(publish_date, 'MON-DD-YYYY HH12:MIPM') publish_date FROM movies"
+  );
+
+  return res.rows;
+};

@@ -1,38 +1,50 @@
-// Static Generation without data
-import { createDB } from "../../db";
+// Static Generation with data (getStaticProps)
+import Link from "next/link";
+import { getMovies } from "../../db";
 
 const Blogs = ({ movies }) => {
   console.log(movies);
 
   return (
-    <div style={{ width: "60%", margin: "0" }}>
+    <div>
       <h2>Blogs Page</h2>
 
-      <ul>
+      <div>
         {movies &&
           movies.map((movie) => (
-            <li key={movie.id}>
-              <h3>{movie.title}</h3>
-              <span>
-                {movie.writer} / {movie.publish_date}
-              </span>
-              <p>{movie.excerpt}</p>
-            </li>
+            <Link
+              href="/blogs/[blogId]"
+              as={`/blogs/${movie.id}`}
+              key={movie.id}
+            >
+              <div
+                key={movie.id}
+                style={{
+                  border: "0.5px solid black",
+                  borderRadius: "4px",
+                  margin: "5px",
+                  padding: "2px 10px",
+                  cursor: "pointer",
+                }}
+              >
+                <h3>{movie.title}</h3>
+                <span>
+                  {movie.writer} / {movie.publish_date}
+                </span>
+                <p>{movie.excerpt}</p>
+              </div>
+            </Link>
           ))}
-      </ul>
+      </div>
     </div>
   );
 };
 
 export const getStaticProps = async () => {
-  const pool = createDB();
-
-  const res = await pool.query(
-    "SELECT id, title, excerpt, detail, writer, TO_CHAR(publish_date, 'MON-DD-YYYY HH12:MIPM') publish_date FROM movies"
-  );
+  const movies = await getMovies();
 
   return {
-    props: { movies: res.rows },
+    props: { movies },
   };
 };
 
