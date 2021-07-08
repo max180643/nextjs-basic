@@ -6,14 +6,18 @@ const Protect = () => {
 
   const router = useRouter();
 
+  console.log(router);
+
   useEffect(() => {
     let isMounted = true;
 
     const getUser = async () => {
-      const response = await fetch(`http://localhost:3000/api/users/1`);
+      const response = await fetch(`http://localhost:3000/api/users/6`);
 
       if (!response.ok) {
-        router.push("/");
+        // router.push("/");
+        // router.replace("/") ไม่เก็บ history เวลากด back
+        router.push({ pathname: "/", query: { search: "params" } });
       } else {
         const data = await response.json();
 

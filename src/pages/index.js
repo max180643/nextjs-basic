@@ -1,9 +1,16 @@
 // Static Generation without data
 
 import Head from "next/head";
+import Router from "next/router";
 // import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  if (Router.router) console.log(Router.router.query);
+
+  // Router events
+  Router.events.on("routeChangeStart", () => console.log("Start"));
+  Router.events.on("routeChangeComplete", () => console.log("Complete"));
+
   return (
     <>
       <Head>
