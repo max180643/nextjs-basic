@@ -1,16 +1,21 @@
 import "../styles/globals.css";
 import { ThemeProvider } from "styled-components";
 
+import Layout from "../components/Layout";
+
 const theme = {
   colors: {
-    primary: "blue",
+    primary: "teal",
+    secondary: "blue",
   },
 };
 
 function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </ThemeProvider>
   );
 }
